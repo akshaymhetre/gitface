@@ -1,13 +1,14 @@
 package com.akshay.gitface.manageservice.service.mixins;
 
-import com.akshay.gitface.manageservice.client.GHCreateBranch;
 import com.akshay.gitface.manageservice.dao.CreateBranchRequest;
 import com.akshay.gitface.manageservice.model.GHBranch;
+import com.akshay.gitface.manageservice.model.GHCreateBranch;
 import com.akshay.gitface.manageservice.model.GHCreatedBranch;
 
 import java.util.List;
 
 public interface GithubBranchApi extends BaseGithubApi {
+
     default List<GHBranch> getBranches(String repoName) {
         return getGithubClient().getBranches(getUsername(), repoName);
     }

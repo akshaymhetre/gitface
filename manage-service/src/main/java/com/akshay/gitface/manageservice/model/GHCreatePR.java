@@ -1,4 +1,4 @@
-package com.akshay.gitface.manageservice.client;
+package com.akshay.gitface.manageservice.model;
 
 import com.akshay.gitface.manageservice.service.mixins.CreatePRRequest;
 import lombok.Builder;

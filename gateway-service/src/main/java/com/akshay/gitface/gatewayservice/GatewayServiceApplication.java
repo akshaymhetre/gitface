@@ -19,20 +19,6 @@ import java.security.Principal;
 
 @SpringBootApplication
 public class GatewayServiceApplication {
-//	@Autowired
-//	private TokenRelayGatewayFilterFactory filterFactory;
-//
-//	@Bean
-//	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-//		//@formatter:off
-//		return builder.routes()
-//				.route("resource", r -> r.path("/resource")
-//						.filters(f -> f.filter(filterFactory.apply()))
-//						.uri("http://localhost:9000"))
-//				.build();
-//		//@formatter:on
-//	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(GatewayServiceApplication.class, args);
 	}

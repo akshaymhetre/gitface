@@ -1,7 +1,7 @@
 package com.akshay.gitface.manageservice.service.mixins;
 
-import com.akshay.gitface.manageservice.client.GHCreatePR;
-import com.akshay.gitface.manageservice.client.GHCreatePRResponse;
+import com.akshay.gitface.manageservice.model.GHCreatePR;
+import com.akshay.gitface.manageservice.model.GHCreatePRResponse;
 
 public interface GithubPRApi extends BaseGithubApi {
     default GHCreatePRResponse createPR(CreatePRRequest createPRRequest) {

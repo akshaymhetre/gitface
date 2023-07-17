@@ -5,16 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
-import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
-import org.springframework.security.web.server.authentication.ServerAuthenticationEntryPointFailureHandler;
-import org.springframework.security.web.server.authentication.ServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
-import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,8 +22,6 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(authorizeExchangeSpec ->
                                 authorizeExchangeSpec
-//                                        .pathMatchers("/swagger-ui.html").permitAll()
-//                                        .pathMatchers("/swagger-resources/**").permitAll()
                                         .pathMatchers("/**").permitAll()
                                         .pathMatchers("/index.html").permitAll()
                                         .pathMatchers("/config/**").permitAll()
@@ -59,7 +50,4 @@ public class SecurityConfig {
                                         }));
         return http.build();
     }
-
-    //oAuth2LoginSpec ->
-    //                                                oAuth2LoginSpec.authenticationSuccessHandler(new CustomAuthHandler())
 }

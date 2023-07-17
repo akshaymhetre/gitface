@@ -10,6 +10,13 @@ services:
     build: ./config-service
     ports:
       - "8088:8088"
+    env_file:
+      gitface.env
+
+  zipkin-service:
+    image: openzipkin/zipkin-slim
+    ports:
+      - 9411:9411
 
   gateway-service:
     build: ./gateway-service
@@ -18,6 +25,7 @@ services:
     depends_on:
       - registry-service
       - config-service
+      - zipkin-service
     env_file:
       gitface.env
 
@@ -29,5 +37,6 @@ services:
       - registry-service
       - config-service
       - gateway-service
+      - zipkin-service
     env_file:
       gitface.env

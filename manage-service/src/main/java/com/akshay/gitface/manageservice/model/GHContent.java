@@ -1,4 +1,4 @@
-package com.akshay.gitface.manageservice.client;
+package com.akshay.gitface.manageservice.model;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

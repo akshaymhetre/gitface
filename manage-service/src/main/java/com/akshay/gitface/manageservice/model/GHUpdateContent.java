@@ -1,7 +1,7 @@
-package com.akshay.gitface.manageservice.client;
+package com.akshay.gitface.manageservice.model;
 
+import com.akshay.gitface.manageservice.dao.CreateContentRequest;
 import com.akshay.gitface.manageservice.dao.UpdateContentRequest;
-import com.akshay.gitface.manageservice.model.CreateContentRequest;
 import lombok.Builder;
 import lombok.Data;
 

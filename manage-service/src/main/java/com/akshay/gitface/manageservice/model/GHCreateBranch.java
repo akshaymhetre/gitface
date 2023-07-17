@@ -1,4 +1,4 @@
-package com.akshay.gitface.manageservice.client;
+package com.akshay.gitface.manageservice.model;
 
 import lombok.Builder;
 import lombok.Data;

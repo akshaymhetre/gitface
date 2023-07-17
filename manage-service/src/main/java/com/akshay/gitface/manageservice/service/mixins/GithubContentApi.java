@@ -1,10 +1,10 @@
 package com.akshay.gitface.manageservice.service.mixins;
 
-import com.akshay.gitface.manageservice.client.GHContent;
-import com.akshay.gitface.manageservice.client.GHUpdateContent;
+import com.akshay.gitface.manageservice.model.GHContent;
+import com.akshay.gitface.manageservice.model.GHUpdateContent;
 import com.akshay.gitface.manageservice.dao.GetContentRequest;
 import com.akshay.gitface.manageservice.dao.UpdateContentRequest;
-import com.akshay.gitface.manageservice.model.CreateContentRequest;
+import com.akshay.gitface.manageservice.dao.CreateContentRequest;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ public interface GithubContentApi extends BaseGithubApi {
                 createContentRequest.path(),
                 updateContent
         );
-        System.out.println("Created content");
+        LogHolder.logger().info("Created content");
     }
 
     default void updateContent(UpdateContentRequest updateContentRequest) {
@@ -54,7 +54,7 @@ public interface GithubContentApi extends BaseGithubApi {
                     updateContentRequest.path(),
                     updateContent
             );
-            System.out.println("Updated content");
+            LogHolder.logger().info("Updated content");
         }
     }
 

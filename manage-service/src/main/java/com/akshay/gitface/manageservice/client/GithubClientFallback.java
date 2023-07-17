@@ -1,9 +1,7 @@
 package com.akshay.gitface.manageservice.client;
 
 
-import com.akshay.gitface.manageservice.model.GHBranch;
-import com.akshay.gitface.manageservice.model.GHCreatedBranch;
-import com.akshay.gitface.manageservice.model.GHRepository;
+import com.akshay.gitface.manageservice.model.*;
 
 import java.util.Collections;
 import java.util.List;

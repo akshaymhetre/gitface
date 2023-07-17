@@ -1,8 +1,6 @@
 package com.akshay.gitface.manageservice.client;
 
-import com.akshay.gitface.manageservice.model.GHBranch;
-import com.akshay.gitface.manageservice.model.GHCreatedBranch;
-import com.akshay.gitface.manageservice.model.GHRepository;
+import com.akshay.gitface.manageservice.model.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
