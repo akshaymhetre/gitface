@@ -44,3 +44,11 @@ docker-compose up -d
 ### Application Interface
 
 Go to http://localhost:8060/
+
+Login screen:
+
+![image](https://github-production-user-asset-6210df.s3.amazonaws.com/2605952/253859017-039d06c7-36ce-4b60-8996-aebb1706b944.png)
+
+Home Screen:
+
+![image](https://github-production-user-asset-6210df.s3.amazonaws.com/2605952/253859625-2620baed-fa46-4abb-b17d-fc08ca6dc457.png)
