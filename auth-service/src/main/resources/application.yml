@@ -1,0 +1,10 @@
+server.port: "${SERVER_PORT:7000}"
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: "${GITHUB_CLIENT_ID:Iv1.0b78247ae124f66a}"
+            clientSecret: "${GITHUB_CLIENT_SECRET:9d39c0f937870257070c59a1cf0ee75f3add55ec}"

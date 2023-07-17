@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  registry-service:
+    build: ./registry-service
+    ports:
+      - "8761:8761"
+
+  config-service:
+    build: ./config-service
+    ports:
+      - "8088:8088"
+
+  gateway-service:
+    build: ./gateway-service
+    ports:
+      - "8060:8060"
+    depends_on:
+      - registry-service
+      - config-service
+    env_file:
+      gitface.env
+
+  manage-service:
+    build: ./manage-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - registry-service
+      - config-service
+      - gateway-service
+    env_file:
+      gitface.env

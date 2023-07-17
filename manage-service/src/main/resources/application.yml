@@ -1,0 +1,12 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: manage-service
+  config:
+    import: "${CONFIG_SERVER:optional:configserver:http://localhost:8088}"
+
+
+logging.level:
+  com.akshay.gitface.manageservice.client.GithubClient: INFO

@@ -1,0 +1,6 @@
+.git
+Jenkinsfile
+Dockerfile
+logs/
+*.md
+.cache

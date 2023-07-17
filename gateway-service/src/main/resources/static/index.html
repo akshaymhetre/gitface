@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Demo</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width"/>
+    <base href="/"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/pretty-print-json@2.0.2/dist/pretty-print-json.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/pretty-print-json@2.0.2/dist/css/pretty-print-json.min.css
+" rel="stylesheet">
+    <style>
+        body
+            {
+              font-family:Arial;
+              background: -webkit-linear-gradient(to right, #155799, #159957);
+              background: linear-gradient(to right, #155799, #159957);
+              color:whitesmoke;
+            }
+        pre {
+            background-color: #85c5c5!important;
+            border-radius: 5px;
+            padding: 15px 15px 15px 15px;
+            overflow: scroll;
+            max-height: 657px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="opacity:0.3">
+    <div class="container-fluid">
+        <h2 style="color: black;font-weight: 800;">GitFace</h2>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <div class="d-flex">
+                <span id="user" style="color: black;font-weight: 300;margin-right:50px;margin-top:7px;"></span>
+                <button class="btn btn-outline-success authenticated" style="display:none" onClick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container unauthenticated">
+    <div class="container h-100 d-flex justify-content-center align-items-center" style="margin-top:50px">
+        <!-- your form container -->
+        <div class="container w-25" style="text-align: center;">
+            <a href="/oauth2/authorization/github" class="btn btn-primary btn-lg">Github Login</a>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center">
+    <div id="log-spin" class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<div class="container authenticated" style="display:none;padding-top: 50px;">
+    <div class="row">
+        <div class="col-sm-2">
+            <img id="avatar" src="" width="150" height="200">
+        </div>
+        <div class="col-sm-10">
+            <ul class="nav nav-pills" style="background-color:#85c5c5; border-radius:12px;margin-bottom:50px;justify-content: center;column-gap: 28px;" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-repos-tab" onClick="showRepos()" data-bs-toggle="pill" data-bs-target="#pills-repos" type="button" role="tab" aria-controls="pills-repos" aria-selected="true">Repos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-show-branch-tab" data-bs-toggle="pill" data-bs-target="#pills-show-branch" type="button" role="tab" aria-controls="pills-show-branch" aria-selected="false">Branches</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-create-branch-tab" data-bs-toggle="pill" data-bs-target="#pills-create-branch" type="button" role="tab" aria-controls="pills-create-branch" aria-selected="false">Create Branch</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-get-content-tab" data-bs-toggle="pill" data-bs-target="#pills-get-content" type="button" role="tab" aria-controls="pills-get-content" aria-selected="false">Get Content</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-create-content-tab" data-bs-toggle="pill" data-bs-target="#pills-create-content" type="button" role="tab" aria-controls="pills-create-content" aria-selected="false">Create Content</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-update-content-tab" data-bs-toggle="pill" data-bs-target="#pills-update-content" type="button" role="tab" aria-controls="pills-update-content" aria-selected="false">Update Content</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-create-pr-tab" data-bs-toggle="pill" data-bs-target="#pills-create-pr" type="button" role="tab" aria-controls="pills-create-pr-content" aria-selected="false">Create PR</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-repos" role="tabpanel" aria-labelledby="pills-repos-tab">
+                    <pre id=repos class=json-container></pre>
+                </div>
+                <div class="tab-pane fade" id="pills-show-branch" role="tabpanel" aria-labelledby="pills-show-branch-tab">
+                    <form class="row g-8">
+                        <div class="col-auto">
+                            <label for="inputPassword2" class="visually-hidden">Repo Name</label>
+                            <input type="text" class="form-control" id="inputPassword2" placeholder="Repo Name">
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn-show-branches" class="btn btn-primary mb-3">Show Branches</button>
+                        </div>
+                    </form>
+                    <pre id=show-branch class=json-container>Output will appear here....</pre>
+                </div>
+                <div class="tab-pane fade" id="pills-create-branch" role="tabpanel" aria-labelledby="pills-create-branch-tab">
+                    <form class="row g-8">
+                        <div class="col-auto">
+                            <label for="cb-repo" class="visually-hidden">Repo Name</label>
+                            <input type="text" class="form-control" id="cb-repo" placeholder="Repo Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cb-base-branch" class="visually-hidden">Base Branch</label>
+                            <input type="text" class="form-control" id="cb-base-branch" placeholder="Base Branch">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cb-branch" class="visually-hidden">Branch Name</label>
+                            <input type="text" class="form-control" id="cb-branch" placeholder="New Branch Name">
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn-create-branch" class="btn btn-primary mb-3">Create Branch</button>
+                        </div>
+                    </form>
+                    <pre id=created-branch class=json-container>Output will appear here....</pre>
+                </div>
+                <div class="tab-pane fade" id="pills-get-content" role="tabpanel" aria-labelledby="pills-get-content-tab">
+                    <form class="row g-8">
+                        <div class="col-auto">
+                            <label for="gc-repo" class="visually-hidden">Repo Name</label>
+                            <input type="text" class="form-control" id="gc-repo" placeholder="Repo Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="gc-branch" class="visually-hidden">Branch Name</label>
+                            <input type="text" class="form-control" id="gc-branch" placeholder="New Branch Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="gc-path" class="visually-hidden">Path</label>
+                            <input type="text" class="form-control" id="gc-path" placeholder="Path">
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn-gc" class="btn btn-primary mb-3">Get Content</button>
+                        </div>
+                    </form>
+                    <pre id=gc-out class=json-container>Output will appear here....</pre>
+                </div>
+                <div class="tab-pane fade" id="pills-create-content" role="tabpanel" aria-labelledby="pills-create-content-tab">
+                    <form class="row g-8">
+                        <div class="col-auto">
+                            <label for="cc-repo" class="visually-hidden">Repo Name</label>
+                            <input type="text" class="form-control" id="cc-repo" placeholder="Repo Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cc-branch" class="visually-hidden">Branch Name</label>
+                            <input type="text" class="form-control" id="cc-branch" placeholder="New Branch Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cc-path" class="visually-hidden">Path</label>
+                            <input type="text" class="form-control" id="cc-path" placeholder="Path">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cc-content" class="visually-hidden">Content</label>
+                            <input type="text" class="form-control" id="cc-content" placeholder="Content">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cc-msg" class="visually-hidden">Commit Message</label>
+                            <input type="text" class="form-control" id="cc-msg" placeholder="Commit Message">
+                        </div>
+                        <div class="d-flex justify-content-end" style="margin-top: 26px;">
+                            <div class="col-auto">
+                                <button id="btn-cc" class="btn btn-primary mb-3">Create Content</button>
+                            </div>
+                        </div>
+                    </form>
+                    <pre id=cc-out class=json-container>Output will appear here....</pre>
+                </div>
+                <div class="tab-pane fade" id="pills-update-content" role="tabpanel" aria-labelledby="pills-update-content-tab">
+                    <form class="row g-8">
+                        <div class="col-auto">
+                            <label for="uc-repo" class="visually-hidden">Repo Name</label>
+                            <input type="text" class="form-control" id="uc-repo" placeholder="Repo Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="uc-branch" class="visually-hidden">Branch Name</label>
+                            <input type="text" class="form-control" id="uc-branch" placeholder="New Branch Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="uc-path" class="visually-hidden">Path</label>
+                            <input type="text" class="form-control" id="uc-path" placeholder="Path">
+                        </div>
+                        <div class="col-auto">
+                            <label for="uc-content" class="visually-hidden">Content</label>
+                            <input type="text" class="form-control" id="uc-content" placeholder="Content">
+                        </div>
+                        <div class="col-auto">
+                            <label for="uc-msg" class="visually-hidden">Commit Message</label>
+                            <input type="text" class="form-control" id="uc-msg" placeholder="Commit Message">
+                        </div>
+                        <div class="d-flex justify-content-end" style="margin-top: 26px;">
+                            <div class="col-auto">
+                                <button id="btn-uc" class="btn btn-primary mb-3">Update Content</button>
+                            </div>
+                        </div>
+                    </form>
+                    <pre id=uc-out class=json-container>Output will appear here....</pre>
+                </div>
+                <div class="tab-pane fade" id="pills-create-pr" role="tabpanel" aria-labelledby="pills-create-pr-tab">
+                    <form class="row g-8">
+                        <div class="col-auto">
+                            <label for="cp-repo" class="visually-hidden">Repo Name</label>
+                            <input type="text" class="form-control" id="cp-repo" placeholder="Repo Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cp-base-branch" class="visually-hidden">Base Branch</label>
+                            <input type="text" class="form-control" id="cp-base-branch" placeholder="Base Branch">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cp-branch" class="visually-hidden">Branch Name</label>
+                            <input type="text" class="form-control" id="cp-branch" placeholder="Branch Name">
+                        </div>
+                        <div class="col-auto">
+                            <label for="cp-title" class="visually-hidden">PR title</label>
+                            <input type="text" class="form-control" id="cp-title" placeholder="PR title">
+                        </div>
+                        <div class="col-auto">
+                            <button id="btn-cp" class="btn btn-primary mb-3">Create PR</button>
+                        </div>
+                    </form>
+                    <pre id=cp-out class=json-container>Output will appear here....</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!--<div class="container text-danger error"></div>-->
+<script type="text/javascript">
+    $.ajax("/user")
+      .done(function(data) {
+        $("#user").html(data.name);
+        $("#username").html(data.name);
+        $("#avatar").attr("src", data.avatarUrl);
+        $(".unauthenticated").hide();
+        $(".authenticated").show();
+        $.get("/gitface/repos", function(data) {
+            $("#repos").html(prettyPrintJson.toHtml(data));
+        });
+      })
+      .always(function() {
+        $("#log-spin").hide();
+       });
+
+    var logout = function() {
+        $.post("/logout", function() {
+            $("#user").html('');
+            $(".unauthenticated").show();
+            $(".authenticated").hide();
+        })
+        return true;
+    }
+    var showRepos = function() {
+        if($("#repos").val() === "") {
+            $.get("/gitface/repos", function(data) {
+                $("#repos").html(prettyPrintJson.toHtml(data));
+            });
+        }
+        return true;
+    }
+    $("#btn-show-branches").on('click', function(e) {
+        e.preventDefault();
+        var repoName = $("#inputPassword2").val().trim();
+        $.get("/gitface/repos/"+repoName+"/branches", function(data) {
+            $("#show-branch").html(prettyPrintJson.toHtml(data));
+        })
+    });
+
+    $("#btn-create-branch").on('click', function(e) {
+        e.preventDefault();
+        var repoName = $("#cb-repo").val().trim();
+        var baseBranch = $("#cb-base-branch").val().trim();
+        var branch = $("#cb-branch").val().trim();
+        $.ajax({
+          url: "/gitface/repos/"+repoName+"/branches",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ repoName: repoName, fromBranch: baseBranch, branchName: branch }),
+          success: function(d) {
+            $("#created-branch").html(prettyPrintJson.toHtml(d));
+         }
+        });
+    });
+
+
+    $("#btn-gc").on('click', function(e) {
+        e.preventDefault();
+        var repoName = $("#gc-repo").val().trim();
+        var branch = $("#gc-branch").val().trim();
+        var path = $("#gc-path").val().trim();
+        $.get("/gitface/repos/"+repoName+"/contents/"+path, { repoName: repoName, path: path, branchName: branch }, function(data) {
+            $("#gc-out").html(prettyPrintJson.toHtml(data));
+        })
+    });
+
+    $("#btn-cc").on('click', function(e) {
+        e.preventDefault();
+        var repoName = $("#cc-repo").val().trim();
+        var branch = $("#cc-branch").val().trim();
+        var path = $("#cc-path").val().trim();
+        var content = $("#cc-content").val().trim();
+        var msg = $("#cc-msg").val().trim();
+
+        $.ajax({
+          url: "/gitface/repos/"+repoName+"/contents/"+path,
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ repoName: repoName, path: path, branchName: branch, content: content, commitMessage: msg }),
+          success: function(d) {
+            $("#cc-out").html("Created file with content");
+         }
+        });
+    });
+
+    $("#btn-uc").on('click', function(e) {
+        e.preventDefault();
+        var repoName = $("#uc-repo").val().trim();
+        var branch = $("#uc-branch").val().trim();
+        var path = $("#uc-path").val().trim();
+        var content = $("#uc-content").val().trim();
+        var msg = $("#uc-msg").val().trim();
+
+        $.ajax({
+          url: "/gitface/repos/"+repoName+"/contents/"+path,
+          type: "PUT",
+          contentType: "application/json",
+          data: JSON.stringify({ repoName: repoName, path: path, branchName: branch, content: content, commitMessage: msg }),
+          success: function(d) {
+            $("#uc-out").html("Updated file with content");
+         }
+        });
+    });
+
+    $("#btn-cp").on('click', function(e) {
+        e.preventDefault();
+        var repoName = $("#cp-repo").val().trim();
+        var baseBranch = $("#cp-base-branch").val().trim();
+        var branch = $("#cp-branch").val().trim();
+        var title = $("#cp-title").val().trim();
+
+        $.ajax({
+          url: "/gitface/repos/"+repoName+"/PR",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ repoName: repoName, baseBranchName: baseBranch, targetBranchName: branch, title: title }),
+          success: function(d) {
+            $("#cp-out").html(prettyPrintJson.toHtml(d));
+         }
+        });
+    });
+
+</script>
+</body>
+</html>
